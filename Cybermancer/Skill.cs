@@ -1,19 +1,24 @@
 ﻿//Class for skills
 namespace Cybermancer
 {
-    class Skill
+    internal class Skill
     {
         internal string name;
         internal int score;
         internal bool timesTwo;
-        internal int levels;
+        internal int level;
 
         public Skill(string name, int score, bool timesTwo)
         {
             this.name = name;
             this.score = score;
             this.timesTwo = timesTwo;
-            levels = 0;
+            level = 0;
+        }
+
+        public int RollSkill(int roll, int additions, int penalties)
+        {
+            return roll + score + level + additions - penalties;
         }
 
         public override string ToString()

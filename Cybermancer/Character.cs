@@ -12,7 +12,13 @@ namespace Cybermancer
         private string handle;
         private int humanity;
         private Dictionary<string, Role> roles;
+        private Dictionary<string, Item> gear;
         private int maxHealth;
+        private int currentHealth;
+        private int headSP;
+        private int bodySP;
+        private int ip;
+        private Random RNGesus;
 
         // ------ CONSTRUCTORS ------
 
@@ -27,29 +33,37 @@ namespace Cybermancer
         /// <param name="tech">their technique score</param>
         /// <param name="cool">their cool score</param>
         /// <param name="will">their willpower score</param>
+        /// <param name="luck">their luck score</param>
         /// <param name="move">their movement score</param>
         /// <param name="body">their body score</param>
         /// <param name="emp">their empathy score</param>
         public Character(string name, string handle, int smart, int reflex,
-            int dex, int tech, int cool, int will, int move, int body, int emp)
+            int dex, int tech, int cool, int will, int luck, int move, int body, int emp)
         {
             this.name = name;
             this.handle = handle;
+            headSP = 0;
+            bodySP = 0;
+            ip = 0;
             humanity = emp * 10;
             stats = new Dictionary<string, int>(9);
-            roles = new Dictionary<string, Role>();
+            roles = new Dictionary<string, Role>(10);
             skills = new Dictionary<string, Skill>(60);
+            gear = new Dictionary<string, Item>();
+            RNGesus = new Random();
             stats.Add("int", smart);
             stats.Add("ref", reflex);
             stats.Add("dex", dex);
             stats.Add("tech", tech);
             stats.Add("cool", cool);
             stats.Add("will", will);
+            stats.Add("luck", luck);
             stats.Add("move", move);
             stats.Add("body", body);
             stats.Add("emp", emp);
             SkillsSetup();
             SetMaxHealth();
+            currentHealth = maxHealth;
         }
 
         /// <summary>
@@ -57,19 +71,197 @@ namespace Cybermancer
         /// </summary>
         /// <param name="name">their name</param>
         /// <param name="handle">their handle</param>
-        public Character(string name, string handle) : this(name, handle, 5, 5, 5, 5, 5, 5, 5, 5, 5)
+        public Character(string name, string handle) : this(name, handle, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5)
         {
             //NOTHING GOES HERE
         }
 
         // ------ METHODS ------
 
+        /// <summary>
+        /// Prints all the skills for the character
+        /// </summary>
         public void PrintSkills()
         {
             foreach(Skill skill in skills.Values)
             {
                 Console.WriteLine(skill);
             }
+        }
+
+        /// <summary>
+        /// Searches for a skill in your skill list. Also sanitizes the given skilln to make compatible with dictionary
+        /// </summary>
+        /// <param name="toFind">The skill you want to find</param>
+        /// <returns>The skill if it is found</returns>
+        /// <exception cref="Exception">Occurs if the skill is not in the dictionary</exception>
+        public Skill SearchSkill(string toFind)
+        {
+            toFind.Trim().ToLower();
+            if (skills.ContainsKey(toFind))
+            {
+                return skills[toFind];
+            }
+            else
+            {
+                throw new Exception("That is not a skill. Please check your spelling.");
+            }
+        }
+
+        /// <summary>
+        /// Adds a role to the character
+        /// </summary>
+        /// <param name="role">The role to add</param>
+        /// <exception cref="Exception">Throws exception if the player doesn't have enough IP</exception>
+        public void AddRole(string role)
+        {
+            role.Trim().ToLower();
+            if (roles.Count == 0)
+            {
+                if(role == "solo")
+                {
+                    roles.Add("solo", new Solo(4));
+                }
+            }
+            else if (roles.ContainsKey(role)) {
+                if (ip < 60 * (roles[role].rank + 1))
+                {
+                    throw new Exception($"Not enough IP for purchase. You need " +
+                        $"{60 * (roles[role].rank + 1)}IP and have {ip}IP");
+                }
+                else
+                {
+                    ip -= 60 * (roles[role].rank + 1);
+                    roles[role].rank += 1;
+                }
+            }
+            else
+            {
+                if (ip < 60)
+                {
+                    throw new Exception($"Not enough IP for purchase. You need 60IP and have {ip}IP");
+                }
+                else
+                {
+                    if(role == "solo")
+                    {
+                        roles.Add("solo", new Solo(1));
+                        ip -= 60;
+                    }
+                }
+            }
+        }
+
+        public void BuySkill(string skill)
+        {
+            skill.Trim().ToLower();
+            if(skills.ContainsKey(skill) == false)
+            {
+                throw new Exception("That is not a skill. Please check your spelling");
+            }
+            int difficult = 1;
+            if (skills[skill].timesTwo == true)
+            {
+                difficult = 2;
+            }
+            else if (skills[skill].level == 10)
+            {
+                throw new Exception($"{skill} is already at level 10");
+            }
+            else if(ip < 20 * (skills[skill].level + 1) * difficult)
+            {
+                throw new Exception($"Not enough IP for purchase. You need " +
+                    $"{20 * (skills[skill].level + 1) * difficult}IP and have {ip}IP");
+            }
+            else
+            {
+                ip -= 20 * (skills[skill].level + 1) * difficult;
+                skills[skill].level += 1;
+            }
+        }
+
+        /// <summary>
+        /// Lets the character take damage
+        /// </summary>
+        /// <param name="damage"></param>
+        /// <param name="location"></param>
+        /// <param name="range"></param>
+        public void TakeDamage(int damage, string location, string range)
+        {
+            location.Trim().ToLower();
+            int treatHeadAs = headSP;
+            int treatBodyAs = bodySP;
+            if(range == "melee")
+            {
+                treatBodyAs /= 2;
+                treatHeadAs /= 2;
+            }
+            if(location == "head")
+            {
+                if(treatHeadAs == 0)
+                {
+                    currentHealth -= damage;
+                }
+                else if (damage > treatHeadAs)
+                {
+                    currentHealth -= damage - treatHeadAs;
+                    headSP -= 1;
+                }
+            }
+            else if(location == "body")
+            {
+                if (treatBodyAs == 0)
+                {
+                    currentHealth -= damage;
+                }
+                else if (damage > treatBodyAs)
+                {
+                    currentHealth -= damage - treatBodyAs;
+                    bodySP -= 1;
+                }
+            }
+            Console.WriteLine($"Health: {currentHealth}/{maxHealth}" +
+                $"\nHead SP: {headSP}" +
+                $"\nBody SP: {bodySP}");
+        }
+
+        /// <summary>
+        /// Adds IP to a character
+        /// </summary>
+        /// <param name="toAdd">The amount of IP to add</param>
+        public void AddIP(int toAdd)
+        {
+            ip += toAdd;
+        }
+
+        /// <summary>
+        /// Converts the character to a describing string
+        /// </summary>
+        /// <returns>The string of the associated character</returns>
+        public override string ToString()
+        {
+            string output = $"Name: {name}" +
+                $"\nHandle: {handle}" +
+                $"\nHealth: {currentHealth}/{maxHealth}" +
+                $"\nHead SP: {headSP}" +
+                $"\nBody SP: {bodySP}" +
+                $"\nInt:  {stats["int"]}" +
+                $"\nRef:  {stats["ref"]}" +
+                $"\nTech: {stats["tech"]}" +
+                $"\nCool: {stats["cool"]}" +
+                $"\nWill: {stats["will"]}" +
+                $"\nLuck: {stats["luck"]}" +
+                $"\nMove: {stats["move"]}" +
+                $"\nBody: {stats["body"]}" +
+                $"\nEmp:  {stats["emp"]}" +
+                $"\nIP: {ip}" +
+                $"\nRoles: ";
+            foreach(Role role in roles.Values)
+            {
+                output = output + $"\n{role.name}: {role.rank}";
+            }
+
+            return output;
         }
 
         // ------ HELPERS ------
@@ -209,6 +401,33 @@ namespace Cybermancer
             {
                 maxHealth = 75;
             }
+        }
+
+        /// <summary>
+        /// Rolls dice including fumbles and great successes. Also keeps track of Solo fumble recovery
+        /// </summary>
+        /// <returns>The roll</returns>
+        private int Roll()
+        {
+            int output = RNGesus.Next(1, 11);
+            Solo solo;
+            if (roles.ContainsKey("solo"))
+            {
+                solo = (Solo)roles["solo"];
+            }
+            else
+            {
+                solo = null!;
+            }
+            if(output == 1 && (solo == null! || (solo != null && solo.fumble == false)))
+            {
+                output -= RNGesus.Next(1, 11);
+            }
+            else if(output == 10)
+            {
+                output += RNGesus.Next(1, 11);
+            }
+            return output;
         }
     }
 }
