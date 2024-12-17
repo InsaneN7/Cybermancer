@@ -12,3 +12,18 @@ C:\Users\georg\source\repos\Personal Projects\Cybermancer\obj\Debug\net8.0\refin
 C:\Users\georg\source\repos\Personal Projects\Cybermancer\obj\Debug\net8.0\Cybermancer.pdb
 C:\Users\georg\source\repos\Personal Projects\Cybermancer\obj\Debug\net8.0\Cybermancer.genruntimeconfig.cache
 C:\Users\georg\source\repos\Personal Projects\Cybermancer\obj\Debug\net8.0\ref\Cybermancer.dll
+C:\Users\georg\source\repos\Personal-Projects\Cybermancer\bin\Debug\net8.0\Cybermancer.exe
+C:\Users\georg\source\repos\Personal-Projects\Cybermancer\bin\Debug\net8.0\Cybermancer.deps.json
+C:\Users\georg\source\repos\Personal-Projects\Cybermancer\bin\Debug\net8.0\Cybermancer.runtimeconfig.json
+C:\Users\georg\source\repos\Personal-Projects\Cybermancer\bin\Debug\net8.0\Cybermancer.dll
+C:\Users\georg\source\repos\Personal-Projects\Cybermancer\bin\Debug\net8.0\Cybermancer.pdb
+C:\Users\georg\source\repos\Personal-Projects\Cybermancer\obj\Debug\net8.0\Cybermancer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\georg\source\repos\Personal-Projects\Cybermancer\obj\Debug\net8.0\Cybermancer.AssemblyInfoInputs.cache
+C:\Users\georg\source\repos\Personal-Projects\Cybermancer\obj\Debug\net8.0\Cybermancer.AssemblyInfo.cs
+C:\Users\georg\source\repos\Personal-Projects\Cybermancer\obj\Debug\net8.0\Cybermancer.csproj.CoreCompileInputs.cache
+C:\Users\georg\source\repos\Personal-Projects\Cybermancer\obj\Debug\net8.0\Cybermancer.sourcelink.json
+C:\Users\georg\source\repos\Personal-Projects\Cybermancer\obj\Debug\net8.0\Cybermancer.dll
+C:\Users\georg\source\repos\Personal-Projects\Cybermancer\obj\Debug\net8.0\refint\Cybermancer.dll
+C:\Users\georg\source\repos\Personal-Projects\Cybermancer\obj\Debug\net8.0\Cybermancer.pdb
+C:\Users\georg\source\repos\Personal-Projects\Cybermancer\obj\Debug\net8.0\Cybermancer.genruntimeconfig.cache
+C:\Users\georg\source\repos\Personal-Projects\Cybermancer\obj\Debug\net8.0\ref\Cybermancer.dll

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\georg\\source\\repos\\Personal Projects\\Cybermancer\\Cybermancer.csproj": {}
+    "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\Cybermancer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\georg\\source\\repos\\Personal Projects\\Cybermancer\\Cybermancer.csproj": {
+    "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\Cybermancer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\georg\\source\\repos\\Personal Projects\\Cybermancer\\Cybermancer.csproj",
+        "projectUniqueName": "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\Cybermancer.csproj",
         "projectName": "Cybermancer",
-        "projectPath": "C:\\Users\\georg\\source\\repos\\Personal Projects\\Cybermancer\\Cybermancer.csproj",
+        "projectPath": "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\Cybermancer.csproj",
         "packagesPath": "C:\\Users\\georg\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\georg\\source\\repos\\Personal Projects\\Cybermancer\\obj\\",
+        "outputPath": "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\georg\\AppData\\Roaming\\NuGet\\NuGet.Config",
