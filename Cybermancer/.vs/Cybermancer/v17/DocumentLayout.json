@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|c:\\users\\georg\\source\\repos\\personal-projects\\cybermancer\\character.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|solutionrelative:character.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|c:\\users\\georg\\source\\repos\\personal-projects\\cybermancer\\weapon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|solutionrelative:weapon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|c:\\users\\georg\\source\\repos\\personal-projects\\cybermancer\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|c:\\users\\georg\\source\\repos\\personal-projects\\cybermancer\\character.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|solutionrelative:character.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|c:\\users\\georg\\source\\repos\\personal-projects\\cybermancer\\solo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -19,12 +19,20 @@
       "RelativeMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|solutionrelative:role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|c:\\users\\georg\\source\\repos\\personal-projects\\cybermancer\\item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|solutionrelative:item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|c:\\users\\georg\\source\\repos\\personal-projects\\cybermancer\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|c:\\users\\georg\\source\\repos\\personal-projects\\cybermancer\\skill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|solutionrelative:skill.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|c:\\users\\georg\\source\\repos\\personal-projects\\cybermancer\\item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|solutionrelative:item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|c:\\users\\georg\\source\\repos\\personal-projects\\cybermancer\\armor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{275EA15F-A000-491D-AE73-CAE1684F0E57}|Cybermancer.csproj|solutionrelative:armor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,17 +42,43 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
+              "Title": "Weapon.cs",
+              "DocumentMoniker": "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\Weapon.cs",
+              "RelativeDocumentMoniker": "Weapon.cs",
+              "ToolTip": "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\Weapon.cs",
+              "RelativeToolTip": "Weapon.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAmwFUAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-18T05:30:00.26Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Armor.cs",
+              "DocumentMoniker": "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\Armor.cs",
+              "RelativeDocumentMoniker": "Armor.cs",
+              "ToolTip": "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\Armor.cs",
+              "RelativeToolTip": "Armor.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwBUAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-18T05:16:20.316Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Item.cs",
               "DocumentMoniker": "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\Item.cs",
               "RelativeDocumentMoniker": "Item.cs",
               "ToolTip": "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\Item.cs",
               "RelativeToolTip": "Item.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAAMAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-17T22:43:32.559Z",
               "EditorCaption": ""
@@ -64,7 +98,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Skill.cs",
               "DocumentMoniker": "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\Skill.cs",
               "RelativeDocumentMoniker": "Skill.cs",
@@ -90,20 +124,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Character.cs",
               "DocumentMoniker": "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\Character.cs",
               "RelativeDocumentMoniker": "Character.cs",
               "ToolTip": "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\Character.cs",
               "RelativeToolTip": "Character.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAkwCMAAAAvAAAAAAAAAA==",
+              "ViewState": "AgIAANcAAAAAAAAAAAAAAOcAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-17T02:24:44.589Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\georg\\source\\repos\\Personal-Projects\\Cybermancer\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",

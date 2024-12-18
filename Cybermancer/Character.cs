@@ -17,8 +17,13 @@ namespace Cybermancer
         private int currentHealth;
         private int headSP;
         private int bodySP;
+        private bool subdermal;
+        private int subHeadSP;
+        private int subBodySP;
         private int ip;
         private Random RNGesus;
+        private Armor headArmor;
+        private Armor bodyArmor;
 
         // ------ CONSTRUCTORS ------
 
@@ -44,6 +49,11 @@ namespace Cybermancer
             this.handle = handle;
             headSP = 0;
             bodySP = 0;
+            headArmor = null!;
+            bodyArmor = null!;
+            subdermal = false;
+            subHeadSP = 0;
+            subBodySP = 0;
             ip = 0;
             humanity = emp * 10;
             stats = new Dictionary<string, int>(9);
@@ -152,6 +162,11 @@ namespace Cybermancer
             }
         }
 
+        /// <summary>
+        /// Lets the player buy a skill increase
+        /// </summary>
+        /// <param name="skill">The skill to increase</param>
+        /// <exception cref="Exception"></exception>
         public void BuySkill(string skill)
         {
             skill.Trim().ToLower();
@@ -181,48 +196,168 @@ namespace Cybermancer
         }
 
         /// <summary>
-        /// Lets the character take damage
+        /// Allows the player to take damage
         /// </summary>
-        /// <param name="damage"></param>
-        /// <param name="location"></param>
-        /// <param name="range"></param>
-        public void TakeDamage(int damage, string location, string range)
+        /// <param name="damage">The amount of damage taken</param>
+        /// <param name="location">Where the damage hit</param>
+        /// <param name="range">Melee or range</param>
+        /// <exception cref="Exception"></exception>
+        public void TakeDamage(int damage, string location, string range, string ammoType)
         {
             location.Trim().ToLower();
-            int treatHeadAs = headSP;
-            int treatBodyAs = bodySP;
-            if(range == "melee")
-            {
-                treatBodyAs /= 2;
-                treatHeadAs /= 2;
-            }
+            range.Trim().ToLower();
+            ammoType.Trim().ToLower();
+            
+            //layer 1: check whats being hit
+            //layer 2: check whats taking the hit
+            //layer 3: check range
+            //layer 4: do damage and lower SP
             if(location == "head")
             {
-                if(treatHeadAs == 0)
+                if(headSP > 0)
+                {
+                    if(range == "melee")
+                    {
+                        if(damage > headSP / 2)
+                        {
+                            currentHealth -= damage - (headSP / 2);
+                            headSP -= 1;
+                        }
+                    }
+                    else if(range == "range")
+                    {
+                        if (damage > headSP)
+                        {
+                            currentHealth -= damage - headSP;
+                            if (ammoType == "armor-piercing")
+                            {
+                                headSP -= 2;
+                            }
+                            else{
+                                headSP -= 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Range must be \"melee\" or \"range\"");
+                    }
+                }
+                else if(subHeadSP > 0)
+                {
+                    if (range == "melee")
+                    {
+                        if (damage > subHeadSP / 2)
+                        {
+                            currentHealth -= damage - (subHeadSP / 2);
+                            subHeadSP -= 1;
+                        }
+                    }
+                    else if (range == "range")
+                    {
+                        if (damage > subHeadSP)
+                        {
+                            currentHealth -= damage - subHeadSP;
+                            if (ammoType == "armor-piercing")
+                            {
+                                subHeadSP -= 2;
+                            }
+                            else
+                            {
+                                subHeadSP -= 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Range must be \"melee\" or \"range\"");
+                    }
+                }
+                else
                 {
                     currentHealth -= damage;
-                }
-                else if (damage > treatHeadAs)
-                {
-                    currentHealth -= damage - treatHeadAs;
-                    headSP -= 1;
                 }
             }
             else if(location == "body")
             {
-                if (treatBodyAs == 0)
+                if (bodySP > 0)
+                {
+                    if (range == "melee")
+                    {
+                        if (damage > bodySP / 2)
+                        {
+                            currentHealth -= damage - (bodySP / 2);
+                            bodySP -= 1;
+                        }
+                    }
+                    else if (range == "range")
+                    {
+                        if (damage > bodySP)
+                        {
+                            currentHealth -= damage - bodySP;
+                            if (ammoType == "armor-piercing")
+                            {
+                                bodySP -= 2;
+                            }
+                            else
+                            {
+                                bodySP -= 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Range must be \"melee\" or \"range\"");
+                    }
+                }
+                else if (subBodySP > 0)
+                {
+                    if (range == "melee")
+                    {
+                        if (damage > subBodySP / 2)
+                        {
+                            currentHealth -= damage - (subBodySP / 2);
+                            subBodySP -= 1;
+                        }
+                    }
+                    else if (range == "range")
+                    {
+                        if (damage > subBodySP)
+                        {
+                            currentHealth -= damage - subBodySP;
+                            if (ammoType == "armor-piercing")
+                            {
+                                subBodySP -= 2;
+                            }
+                            else
+                            {
+                                subBodySP -= 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Range must be \"melee\" or \"range\"");
+                    }
+                }
+                else
                 {
                     currentHealth -= damage;
                 }
-                else if (damage > treatBodyAs)
-                {
-                    currentHealth -= damage - treatBodyAs;
-                    bodySP -= 1;
-                }
             }
+            else
+            {
+                throw new Exception("Target location invalid");
+            }
+
             Console.WriteLine($"Health: {currentHealth}/{maxHealth}" +
                 $"\nHead SP: {headSP}" +
                 $"\nBody SP: {bodySP}");
+            if (subdermal)
+            {
+                Console.WriteLine($"Subdermal Head SP: {subHeadSP}" +
+                    $"\nSubdermal Body SP: {subBodySP}");
+            }
         }
 
         /// <summary>
@@ -235,6 +370,26 @@ namespace Cybermancer
         }
 
         /// <summary>
+        /// Equips armor to the character
+        /// </summary>
+        /// <param name="armor">The armor to equip</param>
+        public void EquipArmor(Armor armor)
+        {
+            if(armor.location == "head")
+            {
+                headArmor = armor;
+                gear.Add(armor.name, armor);
+                headSP = headArmor.SP;
+            }
+            else if (armor.location == "body")
+            {
+                bodyArmor = armor;
+                gear.Add(armor.name, armor);
+                bodySP = bodyArmor.SP;
+            }
+        }
+
+        /// <summary>
         /// Converts the character to a describing string
         /// </summary>
         /// <returns>The string of the associated character</returns>
@@ -244,8 +399,14 @@ namespace Cybermancer
                 $"\nHandle: {handle}" +
                 $"\nHealth: {currentHealth}/{maxHealth}" +
                 $"\nHead SP: {headSP}" +
-                $"\nBody SP: {bodySP}" +
-                $"\nInt:  {stats["int"]}" +
+                $"\nBody SP: {bodySP}";
+            if (subdermal)
+            {
+                output +=
+                $"\nSubdermal Head SP: {subHeadSP}" +
+                $"\nSubdermal Body SP: {subBodySP}";
+            }
+                output += $"\nInt:  {stats["int"]}" +
                 $"\nRef:  {stats["ref"]}" +
                 $"\nTech: {stats["tech"]}" +
                 $"\nCool: {stats["cool"]}" +
