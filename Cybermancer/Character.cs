@@ -387,6 +387,99 @@ namespace Cybermancer
                 gear.Add(armor.name, armor);
                 bodySP = bodyArmor.SP;
             }
+            stats["move"] -= armor.penalty;
+            stats["ref"] -= armor.penalty;
+            stats["dex"] -= armor.penalty;
+        }
+
+        /// <summary>
+        /// UnequipArmor
+        /// </summary>
+        /// <param name="armor"></param>
+        public void UnequipArmor(Armor armor)
+        {
+            stats["move"] += armor.penalty;
+            stats["ref"] += armor.penalty;
+            stats["dex"] += armor.penalty;
+            if (armor.location == "head")
+            {
+                headArmor = null!;
+                gear.Remove(armor.name);
+                headSP = 0;
+            }
+            else if (armor.location == "body")
+            {
+                bodyArmor = null!;
+                gear.Remove(armor.name);
+                bodySP = 0;
+            }
+        }
+
+        /// <summary>
+        /// Adds an item to the inventory
+        /// </summary>
+        /// <param name="item"></param>
+        public void AddItem(Item item)
+        {
+            gear.Add(item.name, item);
+        }
+
+        /// <summary>
+        /// Attacks with a ranged weapon
+        /// </summary>
+        /// <param name="weapon">What weapon to use</param>
+        /// <param name="range">The distance in meters</param>
+        /// <param name="additions">what additional is added to the roll</param>
+        /// <param name="penalties">what additional is subtracted from the roll</param>
+        /// <param name="auto">Are you auto fireing</param>
+        public void UseRangedWeapon(RangedWeapon weapon, int range, int additions, int penalties, bool auto)
+        {
+            int roll = skills[weapon.attackSkill].RollSkill(Roll(), additions, penalties);
+            if(weapon.type == "pistol")
+            {
+                ((Pistol)weapon).Attack(range, 0, roll);
+            }
+            else if(weapon.type == "assault rifle")
+            {
+                if (auto == true)
+                {
+                    ((AssaultRifle)weapon).AutoAttack(range, 0, roll);
+                }
+                else
+                {
+                    ((AssaultRifle)weapon).Attack(range, 0, roll);
+                }
+            }
+            else if (weapon.type == "smg")
+            {
+                if(auto == true)
+                {
+                    ((SMG)weapon).AutoAttack(range, 0, roll);
+                }
+                else{
+                    ((SMG)weapon).Attack(range, 0, roll);
+                }
+            }
+            else if(weapon.type == "shotgun")
+            {
+                ((Shotgun)weapon).Attack(range, 0, roll);
+            }
+            else if (weapon.type == "bow")
+            {
+                ((Bow)weapon).Attack(range, 0, roll);
+            }
+            else if (weapon.type == "grenade launcher")
+            {
+                ((GrenadeLauncher)weapon).Attack(range, 0, roll);
+            }
+            else if (weapon.type == "sniper rifle")
+            {
+                ((SniperRifle)weapon).Attack(range, 0, roll);
+            }
+            else if (weapon.type == "rocket launcher")
+            {
+                ((RocketLauncher)weapon).Attack(range, 0, roll);
+            }
         }
 
         /// <summary>

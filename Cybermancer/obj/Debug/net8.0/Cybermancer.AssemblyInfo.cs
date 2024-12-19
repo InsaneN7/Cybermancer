@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Cybermancer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+18314e841c2a48c245470236bc2c59aa81bb6e64")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5584fe7ca9795f607ab79eef030bd72685c7555a")]
 [assembly: System.Reflection.AssemblyProductAttribute("Cybermancer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Cybermancer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

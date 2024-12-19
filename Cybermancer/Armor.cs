@@ -5,6 +5,7 @@ namespace Cybermancer
     {
         internal string location;
         internal int SP;
+        internal int penalty;
 
         /// <summary>
         /// Constructor for armor
@@ -14,7 +15,8 @@ namespace Cybermancer
         /// <param name="value">What's it worth</param>
         /// <param name="loc">Where's it protect</param>
         /// <param name="sp">How good's it</param>
-        public Armor(string name, string desc, int value, string loc, int sp)
+        /// <param name="penalty">How does it affect your stats</param>
+        public Armor(string name, string desc, int value, string loc, int sp, int penalty)
         {
             base.name = name;
             base.description = desc;
@@ -22,6 +24,7 @@ namespace Cybermancer
             base.type = "armor";
             location = loc;
             SP = sp;
+            this.penalty = penalty;
         }
 
         public override string ToString()
