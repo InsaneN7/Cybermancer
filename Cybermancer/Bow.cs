@@ -14,7 +14,7 @@ namespace Cybermancer
     internal class Bow : RangedWeapon
     {
         public Bow(string name, string desc, int value, int damage,
-            string skill, int hands, int max) : base(name, desc, value, damage, "bow", skill, hands, max)
+            string skill, int hands, int max, bool conceal, int ROF) : base(name, desc, value, damage, "bow", skill, hands, max, conceal, ROF)
         {
 
         }
@@ -87,5 +87,4 @@ namespace Cybermancer
             }
         }
     }
-}
 }

@@ -14,7 +14,7 @@ namespace Cybermancer
         /// <param name="hands">How many hands to use it</param>
         /// <param name="max">How much you packing</param>
         public AssaultRifle(string name, string desc, int value, int damage,
-            string skill, int hands, int max) : (name, desc, value, damage, "assault rifle", skill, hands, max)
+            string skill, int hands, int max, bool conceal, int ROF) : base(name, desc, value, damage, "assault rifle", skill, hands, max, conceal, ROF)
         {
             
         }

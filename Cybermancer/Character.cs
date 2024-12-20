@@ -1,5 +1,6 @@
 ﻿//Class for characters of any type. Shouldn't be a parent whatsoever
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace Cybermancer
 {
@@ -132,6 +133,14 @@ namespace Cybermancer
                 {
                     roles.Add("solo", new Solo(4));
                 }
+                else if(role == "rockerboy")
+                {
+                    roles.Add("rockerboy", new Rockerboy(4));
+                }
+                else if(role == "tech")
+                {
+                    roles.Add("tech", new Tech(4));
+                }
             }
             else if (roles.ContainsKey(role)) {
                 if (ip < 60 * (roles[role].rank + 1))
@@ -156,6 +165,16 @@ namespace Cybermancer
                     if(role == "solo")
                     {
                         roles.Add("solo", new Solo(1));
+                        ip -= 60;
+                    }
+                    else if (role == "rockerboy")
+                    {
+                        roles.Add("rockerboy", new Rockerboy(1));
+                        ip -= 60;
+                    }
+                    else if (role == "tech")
+                    {
+                        roles.Add("tech", new Tech(1));
                         ip -= 60;
                     }
                 }
@@ -220,6 +239,10 @@ namespace Cybermancer
                     {
                         if(damage > headSP / 2)
                         {
+                            if (roles.ContainsKey("solo"))
+                            {
+                                damage -= ((Solo)roles["solo"]).deflection;
+                            }
                             currentHealth -= damage - (headSP / 2);
                             headSP -= 1;
                         }
@@ -228,6 +251,10 @@ namespace Cybermancer
                     {
                         if (damage > headSP)
                         {
+                            if (roles.ContainsKey("solo"))
+                            {
+                                damage -= ((Solo)roles["solo"]).deflection;
+                            }
                             currentHealth -= damage - headSP;
                             if (ammoType == "armor-piercing")
                             {
@@ -247,6 +274,10 @@ namespace Cybermancer
                 {
                     if (range == "melee")
                     {
+                        if (roles.ContainsKey("solo"))
+                        {
+                            damage -= ((Solo)roles["solo"]).deflection;
+                        }
                         if (damage > subHeadSP / 2)
                         {
                             currentHealth -= damage - (subHeadSP / 2);
@@ -257,6 +288,10 @@ namespace Cybermancer
                     {
                         if (damage > subHeadSP)
                         {
+                            if (roles.ContainsKey("solo"))
+                            {
+                                damage -= ((Solo)roles["solo"]).deflection;
+                            }
                             currentHealth -= damage - subHeadSP;
                             if (ammoType == "armor-piercing")
                             {
@@ -275,6 +310,10 @@ namespace Cybermancer
                 }
                 else
                 {
+                    if (roles.ContainsKey("solo"))
+                    {
+                        damage -= ((Solo)roles["solo"]).deflection;
+                    }
                     currentHealth -= damage;
                 }
             }
@@ -372,19 +411,22 @@ namespace Cybermancer
         /// <summary>
         /// Equips armor to the character
         /// </summary>
-        /// <param name="armor">The armor to equip</param>
-        public void EquipArmor(Armor armor)
+        /// <param name="name">The name of the armor to equip</param>
+        public void EquipArmor(string name)
         {
+            if (gear.ContainsKey(name) == false)
+            {
+                throw new Exception("That ain't in your inventory mate");
+            }
+            Armor armor = (Armor)gear[name];
             if(armor.location == "head")
             {
                 headArmor = armor;
-                gear.Add(armor.name, armor);
                 headSP = headArmor.SP;
             }
             else if (armor.location == "body")
             {
                 bodyArmor = armor;
-                gear.Add(armor.name, armor);
                 bodySP = bodyArmor.SP;
             }
             stats["move"] -= armor.penalty;
@@ -393,24 +435,27 @@ namespace Cybermancer
         }
 
         /// <summary>
-        /// UnequipArmor
+        /// Unequips armor on the character
         /// </summary>
-        /// <param name="armor"></param>
-        public void UnequipArmor(Armor armor)
+        /// <param name="name">The armor's name</param>
+        public void UnequipArmor(string name)
         {
+            if (gear.ContainsKey(name) == false)
+            {
+                throw new Exception("That ain't in your inventory mate");
+            }
+            Armor armor = (Armor)gear[name];
             stats["move"] += armor.penalty;
             stats["ref"] += armor.penalty;
             stats["dex"] += armor.penalty;
             if (armor.location == "head")
             {
                 headArmor = null!;
-                gear.Remove(armor.name);
                 headSP = 0;
             }
             else if (armor.location == "body")
             {
                 bodyArmor = null!;
-                gear.Remove(armor.name);
                 bodySP = 0;
             }
         }
@@ -480,6 +525,79 @@ namespace Cybermancer
             {
                 ((RocketLauncher)weapon).Attack(range, 0, roll);
             }
+        }
+
+        /// <summary>
+        /// Adds cyberware to character and inventory
+        /// </summary>
+        /// <param name="metal"></param>
+        /// <exception cref="Exception"></exception>
+        public void EquipCyberware(Cyberware metal)
+        {
+            gear.Add(metal.name, metal);
+            if (metal.rangedWeapon != null)
+            {
+                gear.Add(metal.rangedWeapon.name, metal.rangedWeapon);
+            }
+            else if (metal.meleeWeapon != null)
+            {
+                gear.Add(metal.meleeWeapon.name, metal.meleeWeapon);
+            }
+            humanity -= metal.humanityLoss;
+        }
+
+        /// <summary>
+        /// Unequips cyberware and removes it from your inventory
+        /// </summary>
+        /// <param name="name">The name of the cyberware</param>
+        /// <exception cref="Exception"></exception>
+        public void UnequipCyberware(string name)
+        {
+            if (gear.ContainsKey(name) == false)
+            {
+                throw new Exception("That ain't in your inventory mate");
+            }
+            Cyberware metal = (Cyberware)gear[name];
+            if (metal.rangedWeapon != null)
+            {
+                gear.Remove(metal.rangedWeapon.name);
+            }
+            else if (metal.meleeWeapon != null)
+            {
+                gear.Remove(metal.meleeWeapon.name);
+            }
+            humanity += metal.humanityLoss;
+            gear.Remove(name);
+        }
+
+        /// <summary>
+        /// Creates a short list of combat related info
+        /// </summary>
+        /// <returns>The list</returns>
+        public string QuickStats()
+        {
+            string output = $"{name}" +
+                $"\nHealth: {currentHealth}/{maxHealth}" +
+                $"\nHead SP: {headSP}" +
+                $"\nBody SP: {bodySP}";
+            if (subdermal)
+            {
+                output +=
+                $"\nSubdermal Head SP: {subHeadSP}" +
+                $"\nSubdermal Body SP: {subBodySP}";
+            }
+            foreach(Item item in gear.Values)
+            {
+                if(item.type == "ranged weapon")
+                {
+                    output += $"\n{((RangedWeapon)item).QuickStats()}";
+                }
+                else if (item.type == "melee weapon")
+                {
+                    output += $"\n{((MeleeWeapon)item).QuickStats()}";
+                }
+            }
+            return output;
         }
 
         /// <summary>

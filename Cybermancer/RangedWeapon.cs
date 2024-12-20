@@ -13,7 +13,9 @@ namespace Cybermancer
         internal int maxAmmo;
         internal int currentAmmo;
         internal int totalAmmo;
-        private Random RNGesus = new Random();
+        internal bool concealable;
+        internal int rof;
+        private Random RNGesus;
 
         /// <summary>
         /// Constructor for a weapon
@@ -27,12 +29,12 @@ namespace Cybermancer
         /// <param name="hands">How many hands to use it</param>
         /// <param name="max">How much you packing</param>
         public RangedWeapon(string name, string desc, int value, int damage, string type,
-            string skill, int hands, int max)
+            string skill, int hands, int max, bool conceal, int rof)
         {
             base.name = name;
             base.description = desc;
             base.cost = value;
-            base.type = "weapon";
+            base.type = "ranged weapon";
             damageDice = damage;
             weaponType = type;
             attackSkill = skill;
@@ -40,6 +42,9 @@ namespace Cybermancer
             ammoType = "basic";
             maxAmmo = max;
             currentAmmo = 0;
+            concealable = conceal;
+            this.rof = rof;
+            RNGesus = new Random();
         }
 
         public int Damage()
@@ -61,13 +66,20 @@ namespace Cybermancer
             return maxAmmo - currentAmmo;
         }
 
+        public string QuickStats()
+        {
+            return $"{name}, {damageDice}d6, {currentAmmo}/{maxAmmo}";
+        }
+
         public override string ToString()
         {
             return base.ToString() +
                 $"\nDamage: {damageDice}d6" +
+                $"\nROF: {rof}" +
                 $"\nWeapon Type: {weaponType}" +
                 $"\nAttack Skill: {attackSkill}" +
                 $"\nHands: {hands}" +
+                $"\nConcealable: {concealable}" +
                 $"\nCurrent Ammo Type: {ammoType}" +
                 $"\nAmmo: {currentAmmo}/{maxAmmo}";
         }

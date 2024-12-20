@@ -20,27 +20,17 @@ namespace Cybermancer
             base.name = "Solo";
             base.rank = rank;
             base.description = "Combat Awareness:" +
-                "When Combat begins (before Initiative is rolled), anytime outside of Combat, " +
-                "or in Combat with an Action, a Solo may divide the total number of points they " +
-                "have in their Combat Awareness Role Ability among the following abilities. " +
-                "If a Solo chooses to not change their point assignments, their previous ones persist. " +
-                "Activating some of these abilities will cost the Solo more points than others:" +
-                "\r\n\r\nDamage Deflection\r\nYou have been trained to \"roll with the punches,\" " +
-                "reducing damage done to you.\r\n\r\nFor 2 points, decrease the first damage you " +
-                "take this Round by 1.\r\nFor 4 points, decrease the first damage you take this Round " +
-                "by 2.\r\nFor 6 points, decrease the first damage you take this Round by 3.\r\nFor 8 " +
-                "points, decrease the first damage you take this Round by 4.\r\nFor 10 points, decrease " +
-                "the first damage you take this Round by 5.\r\nFumble Recovery\r\nYou have been trained " +
-                "to instantly recover from mishaps by taking your time with every shot. For 4 points, " +
-                "you ignore critical failures (1s) you roll while attacking. These rolls " +
-                "are still treated as 1, however.\r\n\r\nInitiative Reaction\r\nYour reflexes " +
-                "are trained to respond instantly, without thinking, at the start of a firefight. " +
-                "Each point adds a +1 to Initiative rolls made.\r\n\r\nPrecision Attack\r\nYou have " +
-                "been trained to precisely aim attacks, giving you greater accuracy.\r\n\r\nFor 3 points, " +
-                "you add a +1 to any Attacks made.\r\nFor 6 points, you add a +2 to any Attacks made.\r\n" +
-                "For 9 points, you add a +3 to any Attacks made.\r\nSpot Weakness\r\nYou have been trained " +
-                "to look for weak spots to damage even heavily armored targets. Each point adds a +1 to the " +
-                "damage (before armor) of your first successful Attack in a Round.\r\n\r\nThreat Detection" +
+                "When combat begins (before Initiative is rolled), anytime outside of combat, or in combat with an Action, a Solo may divide the total number of points they have in their Combat Awareness Role Ability among the following abilities. If a Solo chooses to not change their point assignments, their previous ones persist. Activating some of these abilities will cost the Solo more points than others:" +
+                "\r\n \r\n▶ Damage Deflection" +
+                "\r\n \r\nYou have been trained to \"roll with the punches,\" reducing damage done to you. • For 2 points, decrease the first damage you take this Round by 1. • For 4 points, decrease the first damage you take this Round by 2. • For 6 points, decrease the first damage you take this Round by 3. • For 8 points, decrease the first damage you take this Round by 4. • For 10 points, decrease the first damage you take this Round by 5." +
+                "\r\n \r\n▶ Fumble Recovery" +
+                "\r\nYou have been trained to instantly recover from mishaps by taking your time with every shot. For 4 points, you ignore critical failures (1s) you roll while attacking. These rolls are still treated as 1, however." +
+                "\r\n \r\n▶ Initiative Reaction" +
+                "\r\nYour reflexes are trained to respond instantly, without thinking, at the start of a firefight. Each point adds a +1 to Initiative rolls made." +
+                "\r\n▶ Precision Attack\r\nYou have been trained to precisely aim attacks, giving you greater accuracy. • For 3 points, you add a +1 to any Attacks made. • For 6 points, you add a +2 to any Attacks made. • For 9 points, you add a +3 to any Attacks made." +
+                "\r\n \r\n▶ Spot Weakness" +
+                "\r\nYou have been trained to look for weak spots to damage even heavily armored targets. Each point adds a +1 to the damage (before armor) of your first successful Attack in a Round." +
+                "\r\n \r\n▶ Threat Detection" +
                 "\r\nYou have enhanced situational awareness. Each point adds a +1 to any Perception Checks made.";
             deflection = 0;
             fumble = false;

@@ -17,7 +17,7 @@ namespace Cybermancer
         /// <param name="max">How much you packing</param>
         /// <param name="shellType">What type of shell you rocking</param>
         public Shotgun(string name, string desc, int value, int damage,
-            string skill, int hands, int max, string shellType) : base(name, desc, value, damage, "shotgun", skill, hands, max)
+            string skill, int hands, int max, bool conceal, int ROF, string shellType) : base(name, desc, value, damage, "shotgun", skill, hands, max, conceal, ROF)
         {
             this.shellType = shellType;
         }
