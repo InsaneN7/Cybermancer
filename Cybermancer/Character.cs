@@ -11,7 +11,8 @@ namespace Cybermancer
         private Dictionary<string, Skill> skills;
         private string name;
         private string handle;
-        private int humanity;
+        private int currentHumanity;
+        private int maxHumanity;
         private Dictionary<string, Role> roles;
         private Dictionary<string, Item> gear;
         private int maxHealth;
@@ -22,9 +23,12 @@ namespace Cybermancer
         private int subHeadSP;
         private int subBodySP;
         private int ip;
+        private int eddies;
         private Random RNGesus;
         private Armor headArmor;
         private Armor bodyArmor;
+        private Dictionary<string, Cyberware> chrome;
+        private Dictionary<string, int> chromeSlots;
 
         // ------ CONSTRUCTORS ------
 
@@ -56,11 +60,15 @@ namespace Cybermancer
             subHeadSP = 0;
             subBodySP = 0;
             ip = 0;
-            humanity = emp * 10;
+            eddies = 0;
+            currentHumanity = emp * 10;
+            maxHumanity = currentHumanity;
             stats = new Dictionary<string, int>(9);
             roles = new Dictionary<string, Role>(10);
             skills = new Dictionary<string, Skill>(60);
             gear = new Dictionary<string, Item>();
+            chrome = new Dictionary<string, Cyberware>();
+            chromeSlots = new Dictionary<string, int>(8);
             RNGesus = new Random();
             stats.Add("int", smart);
             stats.Add("ref", reflex);
@@ -72,6 +80,7 @@ namespace Cybermancer
             stats.Add("move", move);
             stats.Add("body", body);
             stats.Add("emp", emp);
+            SetupChromeSlots();
             SkillsSetup();
             SetMaxHealth();
             currentHealth = maxHealth;
@@ -98,6 +107,16 @@ namespace Cybermancer
             {
                 Console.WriteLine(skill);
             }
+        }
+
+        /// <summary>
+        /// Sets a skill to a new given value
+        /// </summary>
+        /// <param name="skill">The name of the skill to set</param>
+        /// <param name="score">The score of the skill</param>
+        public void SetSkill(string skill, int score)
+        {
+            skills[skill].score = score;
         }
 
         /// <summary>
@@ -470,6 +489,21 @@ namespace Cybermancer
         }
 
         /// <summary>
+        /// Allows you to (attempt) to buy an item
+        /// </summary>
+        /// <param name="item">The item to buy</param>
+        /// <exception cref="Exception">Yer broke choom, sorry</exception>
+        public void BuyItem(Item item)
+        {
+            if(eddies < item.cost)
+            {
+                throw new Exception("Not enough eddies");
+            }
+            eddies -= item.cost;
+            gear.Add(item.name, item);
+        }
+
+        /// <summary>
         /// Attacks with a ranged weapon
         /// </summary>
         /// <param name="weapon">What weapon to use</param>
@@ -479,75 +513,132 @@ namespace Cybermancer
         /// <param name="auto">Are you auto fireing</param>
         public void UseRangedWeapon(RangedWeapon weapon, int range, int additions, int penalties, bool auto)
         {
-            int roll = skills[weapon.attackSkill].RollSkill(Roll(), additions, penalties);
-            if(weapon.type == "pistol")
+            for(int i = 0; i < weapon.rof; i++)
             {
-                ((Pistol)weapon).Attack(range, 0, roll);
-            }
-            else if(weapon.type == "assault rifle")
-            {
-                if (auto == true)
+                int roll;
+                if(auto == false)
                 {
-                    ((AssaultRifle)weapon).AutoAttack(range, 0, roll);
+                    roll = skills[weapon.attackSkill].RollSkill(Roll(), additions, penalties);
+                    weapon.currentAmmo -= 1;
                 }
                 else
                 {
-                    ((AssaultRifle)weapon).Attack(range, 0, roll);
+                    roll = skills["autofire"].RollSkill(Roll(), additions, penalties);
+                    weapon.currentAmmo -= 4;
                 }
-            }
-            else if (weapon.type == "smg")
-            {
-                if(auto == true)
+                if (weapon.type == "pistol")
                 {
-                    ((SMG)weapon).AutoAttack(range, 0, roll);
+                    ((Pistol)weapon).Attack(range, 0, roll);
                 }
-                else{
-                    ((SMG)weapon).Attack(range, 0, roll);
+                else if (weapon.type == "assault rifle")
+                {
+                    if (auto == true)
+                    {
+                        ((AssaultRifle)weapon).AutoAttack(range, 0, roll);
+                    }
+                    else
+                    {
+                        ((AssaultRifle)weapon).Attack(range, 0, roll);
+                    }
                 }
-            }
-            else if(weapon.type == "shotgun")
-            {
-                ((Shotgun)weapon).Attack(range, 0, roll);
-            }
-            else if (weapon.type == "bow")
-            {
-                ((Bow)weapon).Attack(range, 0, roll);
-            }
-            else if (weapon.type == "grenade launcher")
-            {
-                ((GrenadeLauncher)weapon).Attack(range, 0, roll);
-            }
-            else if (weapon.type == "sniper rifle")
-            {
-                ((SniperRifle)weapon).Attack(range, 0, roll);
-            }
-            else if (weapon.type == "rocket launcher")
-            {
-                ((RocketLauncher)weapon).Attack(range, 0, roll);
+                else if (weapon.type == "smg")
+                {
+                    if (auto == true)
+                    {
+                        ((SMG)weapon).AutoAttack(range, 0, roll);
+                    }
+                    else
+                    {
+                        ((SMG)weapon).Attack(range, 0, roll);
+                    }
+                }
+                else if (weapon.type == "shotgun")
+                {
+                    ((Shotgun)weapon).Attack(range, 0, roll);
+                }
+                else if (weapon.type == "bow")
+                {
+                    ((Bow)weapon).Attack(range, 0, roll);
+                }
+                else if (weapon.type == "grenade launcher")
+                {
+                    ((GrenadeLauncher)weapon).Attack(range, 0, roll);
+                }
+                else if (weapon.type == "sniper rifle")
+                {
+                    ((SniperRifle)weapon).Attack(range, 0, roll);
+                }
+                else if (weapon.type == "rocket launcher")
+                {
+                    ((RocketLauncher)weapon).Attack(range, 0, roll);
+                }
             }
         }
 
         /// <summary>
-        /// Adds cyberware to character and inventory
+        /// Attacks with a melee weapon
         /// </summary>
-        /// <param name="metal"></param>
+        /// <param name="weapon">the weapon to use</param>
+        /// <param name="additions">any external buffs</param>
+        /// <param name="penalties">any external penalties</param>
+        /// <param name="dodgeroll">the enemy's dodge roll</param>
+        public void UseMeleeWeapon(MeleeWeapon weapon, int additions, int penalties, int dodgeroll)
+        {
+            int roll;
+            for (int i = 0; i < weapon.rof; i++)
+            {
+                roll = skills[weapon.attackSkill].RollSkill(Roll(), additions, penalties);
+                if(roll > dodgeroll)
+                {
+                    weapon.Attack(roll, dodgeroll);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds cyberware to character
+        /// </summary>
+        /// <param name="metal">The cyberware to install</param>
         /// <exception cref="Exception"></exception>
         public void EquipCyberware(Cyberware metal)
         {
-            gear.Add(metal.name, metal);
-            if (metal.rangedWeapon != null)
+            if (gear.ContainsValue(metal) == false)
             {
-                gear.Add(metal.rangedWeapon.name, metal.rangedWeapon);
+                throw new Exception("You don't own that choomba");
             }
-            else if (metal.meleeWeapon != null)
+            if (chromeSlots[metal.location] < metal.takesSlots)
+            {
+                throw new Exception("Not enough installation slots");
+            }
+            if(metal.location == "borgware" && metal.humanityLoss != 0)
+            {
+                maxHumanity -= 4;
+            }
+            else if(metal.humanityLoss != 0)
+            {
+                maxHumanity -= 2;
+            }
+            if (metal.meleeWeapon != null)
             {
                 gear.Add(metal.meleeWeapon.name, metal.meleeWeapon);
             }
-            humanity -= metal.humanityLoss;
+            else if (metal.rangedWeapon != null)
+            {
+                gear.Add(metal.rangedWeapon.name, metal.rangedWeapon);
+            }
+            else if (metal.armor != null)
+            {
+                subdermal = true;
+                subBodySP = metal.armor.SP;
+                subHeadSP = metal.armor.SP;
+            }
+            chrome.Add(metal.location, metal);
+            currentHumanity -= metal.humanityLoss;
+            stats["emp"] = currentHumanity / 10;
         }
 
         /// <summary>
-        /// Unequips cyberware and removes it from your inventory
+        /// Unequips cyberware
         /// </summary>
         /// <param name="name">The name of the cyberware</param>
         /// <exception cref="Exception"></exception>
@@ -566,8 +657,22 @@ namespace Cybermancer
             {
                 gear.Remove(metal.meleeWeapon.name);
             }
-            humanity += metal.humanityLoss;
-            gear.Remove(name);
+            else if (metal.armor != null)
+            {
+                subdermal = false;
+                subBodySP = 0;
+                subHeadSP = 0;
+            }
+            if (metal.location == "borgware" && metal.humanityLoss != 0)
+            {
+                maxHumanity += 4;
+            }
+            else if (metal.humanityLoss != 0)
+            {
+                maxHumanity += 2;
+            }
+            currentHumanity += metal.humanityLoss;
+            stats["emp"] = currentHumanity / 10;
         }
 
         /// <summary>
@@ -606,9 +711,11 @@ namespace Cybermancer
         /// <returns>The string of the associated character</returns>
         public override string ToString()
         {
-            string output = $"Name: {name}" +
+            string output = 
+                $"Name: {name}" +
                 $"\nHandle: {handle}" +
                 $"\nHealth: {currentHealth}/{maxHealth}" +
+                $"\nHumanity: {currentHumanity}/{maxHumanity}" +
                 $"\nHead SP: {headSP}" +
                 $"\nBody SP: {bodySP}";
             if (subdermal)
@@ -617,7 +724,8 @@ namespace Cybermancer
                 $"\nSubdermal Head SP: {subHeadSP}" +
                 $"\nSubdermal Body SP: {subBodySP}";
             }
-                output += $"\nInt:  {stats["int"]}" +
+                output += 
+                $"\nInt:  {stats["int"]}" +
                 $"\nRef:  {stats["ref"]}" +
                 $"\nTech: {stats["tech"]}" +
                 $"\nCool: {stats["cool"]}" +
@@ -800,6 +908,21 @@ namespace Cybermancer
                 output += RNGesus.Next(1, 11);
             }
             return output;
+        }
+    
+        /// <summary>
+        /// Sets up the chrome slots
+        /// </summary>
+        private void SetupChromeSlots()
+        {
+            chromeSlots.Add("neuralware", 0);
+            chromeSlots.Add("cyberoptics", 0);
+            chromeSlots.Add("cyberaudio", 0);
+            chromeSlots.Add("cyberlimbs", 0);
+            chromeSlots.Add("internal", 7);
+            chromeSlots.Add("external", 7);
+            chromeSlots.Add("fashionware", 7);
+            chromeSlots.Add("borgware", int.MaxValue);
         }
     }
 }

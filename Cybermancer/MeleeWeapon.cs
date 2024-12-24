@@ -25,6 +25,19 @@ namespace Cybermancer
             RNGesus = new Random();
         }
 
+        public int Attack(int attackRoll, int dodge)
+        {
+            int output = 0;
+            if(attackRoll > dodge)
+            {
+                for(int i = 0; i < damageDice; i++)
+                {
+                    output += RNGesus.Next(1, 7);
+                }
+            }
+            return output;
+        }
+
         public string QuickStats()
         {
             return $"{name}, {damageDice}d6";
